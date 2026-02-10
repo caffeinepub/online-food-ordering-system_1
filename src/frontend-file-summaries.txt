@@ -1,0 +1,15 @@
+{
+  "frontend/src/App.tsx": "Main application component with TanStack Router setup, defining all routes (home, customer, restaurant, delivery, about, technologies) with a shared layout containing header and footer.",
+  "frontend/src/components/Header.tsx": "Responsive navigation header with logo, desktop menu, and mobile sheet menu that links to all portal pages.",
+  "frontend/src/components/Footer.tsx": "Footer component displaying college project info, thank you message, and caffeine.ai attribution with UTM tracking.",
+  "frontend/src/pages/Home.tsx": "Landing page with hero section, project description, and three portal cards (Customer, Restaurant, Delivery) with navigation buttons.",
+  "frontend/src/pages/CustomerPortal.tsx": "Customer portal with login UI, restaurant listing, food menu displaying real dish images (Pizza, Burger, Biryani, Pasta, Sandwich, Noodles) that open in a modal when clicked, order form, and order status tracker with four stages.",
+  "frontend/src/pages/RestaurantPortal.tsx": "Restaurant portal with login UI, dashboard showing new/accepted orders with accept/reject buttons, and menu management section displaying food items with prices.",
+  "frontend/src/pages/DeliveryPortal.tsx": "Delivery partner portal with login UI, assigned orders table showing pickup restaurant and delivery address, and buttons to update status (Picked Up, Delivered).",
+  "frontend/src/pages/AboutProject.tsx": "About page explaining the project is a frontend prototype demonstrating food ordering workflow between customers, restaurants, and delivery partners with conceptual backend.",
+  "frontend/src/pages/Technologies.tsx": "Technologies page listing frontend stack (React, TypeScript, Tailwind), conceptual backend (Firebase), conceptual database (Firestore), and development tools.",
+  "frontend/src/hooks/useQueries.ts": "Empty placeholder file for React Query hooks (not needed as backend is empty and all data is sample/mock).",
+  "frontend/src/index.css": "Global styles with OKLCH color system using warm orange/amber tones for primary colors, avoiding blue/purple, with full light and dark mode support.",
+  "frontend/tailwind.config.js": "Tailwind configuration with Inter font family and extended color tokens mapped to OKLCH CSS variables.",
+  "frontend/src/components/DishImageModal.tsx": "Reusable modal component that displays an enlarged dish image with a close button, supporting dismissal via button click, backdrop click, and Escape key."
+}

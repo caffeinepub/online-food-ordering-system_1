@@ -1,0 +1,81 @@
+{
+  "kind": "coverage_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-10T15:18:15.956Z",
+  "sources": {
+    "buildRequest": true,
+    "implementationPlan": true
+  },
+  "requirements": {
+    "total": 3,
+    "implemented": 3,
+    "items": [
+      {
+        "id": "REQ-10",
+        "summary": "Make each dish image in the Customer Portal menu clickable so that clicking the image opens a modal/popup showing a larger version of that dish image (option 1). The modal must be dismissible and must not break the existing \"Order Now\" button behavior.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/components/DishImageModal.tsx",
+          "frontend/src/pages/CustomerPortal.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/components/DishImageModal.tsx",
+          "frontend/src/pages/CustomerPortal.tsx"
+        ]
+      },
+      {
+        "id": "REQ-11",
+        "summary": "Update the Customer Portal menu data model in frontend/src/pages/CustomerPortal.tsx so each menu item references its corresponding static image filename, and wire the UI to use those image files with appropriate alt text in English.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/pages/CustomerPortal.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/pages/CustomerPortal.tsx"
+        ]
+      },
+      {
+        "id": "REQ-9",
+        "summary": "Add real dish images (static assets) for each sample menu item in the Customer Portal menu (Pizza, Burger, Biryani, Pasta, Sandwich, Noodles), replacing the current emoji-only presentation.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/public/assets/generated/dish-pizza.dim_512x512.png",
+          "frontend/public/assets/generated/dish-burger.dim_512x512.png",
+          "frontend/public/assets/generated/dish-biryani.dim_512x512.png",
+          "frontend/public/assets/generated/dish-pasta.dim_512x512.png",
+          "frontend/public/assets/generated/dish-sandwich.dim_512x512.png",
+          "frontend/public/assets/generated/dish-noodles.dim_512x512.png",
+          "frontend/src/pages/CustomerPortal.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/public/assets/generated/dish-pizza.dim_512x512.png",
+          "frontend/public/assets/generated/dish-burger.dim_512x512.png",
+          "frontend/public/assets/generated/dish-biryani.dim_512x512.png",
+          "frontend/public/assets/generated/dish-pasta.dim_512x512.png",
+          "frontend/public/assets/generated/dish-sandwich.dim_512x512.png",
+          "frontend/public/assets/generated/dish-noodles.dim_512x512.png",
+          "frontend/src/pages/CustomerPortal.tsx"
+        ]
+      }
+    ]
+  },
+  "changedFiles": [
+    "build-request.json",
+    "build-template/README.md",
+    "feature_evidence.json",
+    "frontend-file-summaries.txt",
+    "frontend-implementation-plan.json",
+    "frontend/public/assets/generated/dish-biryani.dim_512x512.png",
+    "frontend/public/assets/generated/dish-burger.dim_512x512.png",
+    "frontend/public/assets/generated/dish-noodles.dim_512x512.png",
+    "frontend/public/assets/generated/dish-pasta.dim_512x512.png",
+    "frontend/public/assets/generated/dish-pizza.dim_512x512.png",
+    "frontend/public/assets/generated/dish-sandwich.dim_512x512.png",
+    "frontend/src/components/DishImageModal.tsx",
+    "frontend/src/pages/CustomerPortal.tsx",
+    "project_state.json",
+    "scratch/component-selection.json",
+    "spec.md",
+    "spec_vs_diff_report.json"
+  ]
+}

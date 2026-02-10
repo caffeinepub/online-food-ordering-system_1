@@ -1,0 +1,60 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-add-real-dish-images-static-assets-for-each-sample-menu-item-in-the-customer-portal-menu-pizza-burger-biryani-pasta-sandwich-noodles-replacing-the-current-emoji-only-presentation",
+      "featureTitle": "Add real dish images (static assets) for each sample menu item in the Customer Portal menu (Pizza, Burger, Biryani, Pasta, Sandwich, Noodles), replacing the current emoji-only presentation.",
+      "files": [
+        "frontend/src/pages/CustomerPortal.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-9"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-make-each-dish-image-in-the-customer-portal-menu-clickable-so-that-clicking-the-image-opens-a-modal-popup-showing-a-larger-version-of-that-dish-image-option-1-the-modal-must-be-dismissible-and-must-not-break-the-existing-order-now-button-behavior",
+      "featureTitle": "Make each dish image in the Customer Portal menu clickable so that clicking the image opens a modal/popup showing a larger version of that dish image (option 1). The modal must be dismissible and must not break the existing \"Order Now\" button behavior.",
+      "files": [
+        "frontend/src/components/DishImageModal.tsx",
+        "frontend/src/pages/CustomerPortal.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-10"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-update-the-customer-portal-menu-data-model-in-frontend-src-pages-customerportal-tsx-so-each-menu-item-references-its-corresponding-static-image-filename-and-wire-the-ui-to-use-those-image-files-with-appropriate-alt-text-in-english",
+      "featureTitle": "Update the Customer Portal menu data model in frontend/src/pages/CustomerPortal.tsx so each menu item references its corresponding static image filename, and wire the UI to use those image files with appropriate alt text in English.",
+      "files": [
+        "frontend/src/pages/CustomerPortal.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-11"
+      ],
+      "confidence": "high"
+    }
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "Clickable dish images with enlarged-image modal in Customer Portal",
+  "requirements": [
+    {
+      "id": "REQ-9",
+      "summary": "Replace emoji-only dish visuals with real static dish images for the six sample menu items in the Customer Portal Food Menu grid.",
+      "acceptanceCriteria": [
+        "Each item in the Customer Portal \"Food Menu\" grid displays a real image loaded from a local static file (not an emoji).",
+        "Images are stored and served as static assets from the frontend (no backend involvement).",
+        "All six sample menu items (Pizza, Burger, Biryani, Pasta, Sandwich, Noodles) have corresponding images and render correctly on mobile and desktop."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/public/assets/generated/dish-pizza.dim_512x512.png",
+          "operation": "create",
+          "description": "Add the generated static asset image for Pizza at frontend/public/assets/generated/dish-pizza.dim_512x512.png."
+        },
+        {
+          "path": "frontend/public/assets/generated/dish-burger.dim_512x512.png",
+          "operation": "create",
+          "description": "Add the generated static asset image for Burger at frontend/public/assets/generated/dish-burger.dim_512x512.png."
+        },
+        {
+          "path": "frontend/public/assets/generated/dish-biryani.dim_512x512.png",
+          "operation": "create",
+          "description": "Add the generated static asset image for Biryani at frontend/public/assets/generated/dish-biryani.dim_512x512.png."
+        },
+        {
+          "path": "frontend/public/assets/generated/dish-pasta.dim_512x512.png",
+          "operation": "create",
+          "description": "Add the generated static asset image for Pasta at frontend/public/assets/generated/dish-pasta.dim_512x512.png."
+        },
+        {
+          "path": "frontend/public/assets/generated/dish-sandwich.dim_512x512.png",
+          "operation": "create",
+          "description": "Add the generated static asset image for Sandwich at frontend/public/assets/generated/dish-sandwich.dim_512x512.png."
+        },
+        {
+          "path": "frontend/public/assets/generated/dish-noodles.dim_512x512.png",
+          "operation": "create",
+          "description": "Add the generated static asset image for Noodles at frontend/public/assets/generated/dish-noodles.dim_512x512.png."
+        },
+        {
+          "path": "frontend/src/pages/CustomerPortal.tsx",
+          "operation": "modify",
+          "description": "Update the Food Menu grid card UI to render dish images as <img> (sourced from the new static assets) with responsive sizing/cropping, replacing the current emoji-only rendering, while keeping the existing layout and \"Order Now\" action intact."
+        }
+      ]
+    },
+    {
+      "id": "REQ-10",
+      "summary": "Make dish images clickable to open a dismissible modal showing a larger version of the same dish image without affecting existing Order Now behavior.",
+      "acceptanceCriteria": [
+        "Clicking/tapping a dish image in the Customer Portal \"Food Menu\" opens a modal/popup displaying a larger version of the same dish image.",
+        "The modal includes a clear close mechanism (e.g., close button and/or clicking outside and/or Escape key) and returns focus appropriately when closed.",
+        "The existing \"Order Now\" button still selects the item for the order form and continues to show the existing toast feedback.",
+        "No backend changes are introduced; this remains UI-only behavior."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/DishImageModal.tsx",
+          "operation": "create",
+          "description": "Create a reusable, accessible dish image modal component (overlay + larger image + close button) that supports dismiss via close button, backdrop click, and Escape key, and returns focus to the previously focused trigger element when closed."
+        },
+        {
+          "path": "frontend/src/pages/CustomerPortal.tsx",
+          "operation": "modify",
+          "description": "Wire dish image clicks in the Food Menu grid to open DishImageModal with the correct dish image; ensure modal dismissal works (close/backdrop/Escape + focus return) and ensure the existing \"Order Now\" button behavior/toast remains unchanged."
+        }
+      ]
+    },
+    {
+      "id": "REQ-11",
+      "summary": "Update the Customer Portal menu data model to reference static image filenames and wire UI to use them with English alt text matching dish names.",
+      "acceptanceCriteria": [
+        "sampleMenuItems in frontend/src/pages/CustomerPortal.tsx references image file paths for each dish image.",
+        "Rendered <img> elements have English alt text matching the dish name (e.g., \"Pizza\", \"Burger\").",
+        "No user-facing text added by this change is non-English."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/CustomerPortal.tsx",
+          "operation": "modify",
+          "description": "Refactor sampleMenuItems so each item includes a static image path referencing the generated assets (frontend/public/assets/generated/dish-pizza.dim_512x512.png, frontend/public/assets/generated/dish-burger.dim_512x512.png, frontend/public/assets/generated/dish-biryani.dim_512x512.png, frontend/public/assets/generated/dish-pasta.dim_512x512.png, frontend/public/assets/generated/dish-sandwich.dim_512x512.png, frontend/public/assets/generated/dish-noodles.dim_512x512.png), and ensure all rendered dish <img> tags use English alt text equal to the dish name."
+        }
+      ]
+    }
+  ]
+}

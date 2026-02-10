@@ -1,0 +1,95 @@
+{
+  "kind": "build_request",
+  "title": "Add clickable dish images with larger-image modal in Customer Portal",
+  "priority": "normal",
+  "requirements": [
+    {
+      "id": "REQ-9",
+      "text": "Add real dish images (static assets) for each sample menu item in the Customer Portal menu (Pizza, Burger, Biryani, Pasta, Sandwich, Noodles), replacing the current emoji-only presentation.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-user-1"
+        ],
+        "quotes": [
+          "add images to dishes and all as to worked when we clicked it"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Each item in the Customer Portal \"Food Menu\" grid displays a real image loaded from a local static file (not an emoji).",
+        "Images are stored and served as static assets from the frontend (no backend involvement).",
+        "All six sample menu items (Pizza, Burger, Biryani, Pasta, Sandwich, Noodles) have corresponding images and render correctly on mobile and desktop."
+      ]
+    },
+    {
+      "id": "REQ-10",
+      "text": "Make each dish image in the Customer Portal menu clickable so that clicking the image opens a modal/popup showing a larger version of that dish image (option 1). The modal must be dismissible and must not break the existing \"Order Now\" button behavior.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-user-2"
+        ],
+        "quotes": [
+          "1"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Clicking/tapping a dish image in the Customer Portal \"Food Menu\" opens a modal/popup displaying a larger version of the same dish image.",
+        "The modal includes a clear close mechanism (e.g., close button and/or clicking outside and/or Escape key) and returns focus appropriately when closed.",
+        "The existing \"Order Now\" button still selects the item for the order form and continues to show the existing toast feedback.",
+        "No backend changes are introduced; this remains UI-only behavior."
+      ]
+    },
+    {
+      "id": "REQ-11",
+      "text": "Update the Customer Portal menu data model in frontend/src/pages/CustomerPortal.tsx so each menu item references its corresponding static image filename, and wire the UI to use those image files with appropriate alt text in English.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-user-1",
+          "msg-user-2"
+        ],
+        "quotes": [
+          "add images to dishes and all as to worked when we clicked it",
+          "1"
+        ]
+      },
+      "acceptanceCriteria": [
+        "sampleMenuItems in frontend/src/pages/CustomerPortal.tsx references image file paths for each dish image.",
+        "Rendered <img> elements have English alt text matching the dish name (e.g., \"Pizza\", \"Burger\").",
+        "No user-facing text added by this change is non-English."
+      ]
+    }
+  ],
+  "constraints": [
+    "Do not modify any files under frontend/src/components/ui (read-only UI component sources must be composed, not edited).",
+    "Do not modify immutable hook/bootstrap paths: frontend/src/hooks/useInternetIdentity.ts, frontend/src/hooks/useInternetIdentity.tsx, frontend/src/hooks/useActor.ts, frontend/src/main.tsx.",
+    "Do not add or require any backend functionality; keep the application UI-only for ordering and image viewing."
+  ],
+  "nonGoals": [
+    "Implementing real authentication, real order persistence, or any backend database integration.",
+    "Adding new pages or changing existing navigation/routing beyond the Customer Portal dish-image interaction.",
+    "Implementing real-time updates or external image hosting/CDN integration."
+  ],
+  "imageRequirements": {
+    "required": [
+      "Square top-down photo-style image of a Margherita pizza on a plate with neutral background (dish-pizza.dim_512x512.png)",
+      "Square photo-style image of a classic burger with fries on a neutral background (dish-burger.dim_512x512.png)",
+      "Square photo-style image of chicken biryani in a bowl with neutral background (dish-biryani.dim_512x512.png)",
+      "Square photo-style image of pasta in a bowl with neutral background (dish-pasta.dim_512x512.png)",
+      "Square photo-style image of a sandwich on a plate with neutral background (dish-sandwich.dim_512x512.png)",
+      "Square photo-style image of noodles in a bowl with neutral background (dish-noodles.dim_512x512.png)"
+    ],
+    "edits": []
+  },
+  "userProfileUpdate": {
+    "goalsToAdd": [],
+    "goalsToRemove": [],
+    "preferencesToAdd": [],
+    "preferencesToRemove": [],
+    "miscToAdd": [],
+    "miscToRemove": [],
+    "fieldsToSet": {},
+    "fieldsToDelete": []
+  }
+}
