@@ -1,85 +1,195 @@
 {
   "kind": "build_request",
-  "title": "Add clickable dish images with larger-image modal in Customer Portal",
+  "title": "Implement strict single-step ordering flow (Menu → Cart → Details → Tracking)",
   "priority": "normal",
   "requirements": [
     {
-      "id": "REQ-9",
-      "text": "Add real dish images (static assets) for each sample menu item in the Customer Portal menu (Pizza, Burger, Biryani, Pasta, Sandwich, Noodles), replacing the current emoji-only presentation.",
+      "id": "REQ-15",
+      "text": "Refactor the customer ordering experience to follow a strict step-by-step flow where only one step is visible at a time: Step 1 Restaurant & Menu → Step 2 Cart Page → Step 3 Delivery Details → Step 4 Order Tracking. This flow must be implemented in the existing Customer route (/customer) so that the Home page “Customer Portal” CTA continues to work.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-user-1"
+          "msg-1"
         ],
         "quotes": [
-          "add images to dishes and all as to worked when we clicked it"
+          "The website must follow a strict step-by-step user flow. Only one step should be visible at a time."
         ]
       },
       "acceptanceCriteria": [
-        "Each item in the Customer Portal \"Food Menu\" grid displays a real image loaded from a local static file (not an emoji).",
-        "Images are stored and served as static assets from the frontend (no backend involvement).",
-        "All six sample menu items (Pizza, Burger, Biryani, Pasta, Sandwich, Noodles) have corresponding images and render correctly on mobile and desktop."
+        "Navigating to /customer starts at Step 1 (Restaurant & Menu) by default.",
+        "At any moment, exactly one step’s content is rendered; content from other steps is not visible on the page.",
+        "The user can complete the full flow end-to-end without needing any other portals or tabs.",
+        "No login/registration UI is required within this step-by-step flow."
       ]
     },
     {
-      "id": "REQ-10",
-      "text": "Make each dish image in the Customer Portal menu clickable so that clicking the image opens a modal/popup showing a larger version of that dish image (option 1). The modal must be dismissible and must not break the existing \"Order Now\" button behavior.",
+      "id": "REQ-16",
+      "text": "Implement STEP 1: RESTAURANT & MENU view with a single restaurant name and a menu list containing exactly these items and prices: Pizza – 199, Burger – 129, Biryani – 249. Each menu item must have an “Add to Cart” button. After at least one item is added, show a “Go to Cart” button. Do not show cart content, delivery details, or order tracking content in this step.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-user-2"
+          "msg-1"
         ],
         "quotes": [
-          "1"
+          "STEP 1: RESTAURANT & MENU",
+          "Show a restaurant name.",
+          "Display food items with price: - Pizza – 199 - Burger – 129 - Biryani – 249",
+          "Each item must have an “Add to Cart” button.",
+          "When an item is added, show a “Go to Cart” button.",
+          "Do NOT show cart, details, or tracking at this step."
         ]
       },
       "acceptanceCriteria": [
-        "Clicking/tapping a dish image in the Customer Portal \"Food Menu\" opens a modal/popup displaying a larger version of the same dish image.",
-        "The modal includes a clear close mechanism (e.g., close button and/or clicking outside and/or Escape key) and returns focus appropriately when closed.",
-        "The existing \"Order Now\" button still selects the item for the order form and continues to show the existing toast feedback.",
-        "No backend changes are introduced; this remains UI-only behavior."
+        "Step 1 displays one restaurant name (static text is acceptable).",
+        "Step 1 displays exactly three menu items: Pizza (199), Burger (129), Biryani (249).",
+        "Clicking “Add to Cart” adds the selected item to a cart state (in-memory).",
+        "“Go to Cart” is hidden when cart is empty and becomes visible once at least one item has been added.",
+        "No cart list, delivery form fields, or tracking status UI is visible in Step 1."
       ]
     },
     {
-      "id": "REQ-11",
-      "text": "Update the Customer Portal menu data model in frontend/src/pages/CustomerPortal.tsx so each menu item references its corresponding static image filename, and wire the UI to use those image files with appropriate alt text in English.",
+      "id": "REQ-17",
+      "text": "Implement STEP 2: CART PAGE view to show only the selected food items, with quantity per item and a total price calculation. Provide two buttons: “Continue Shopping” (returns to Step 1) and “Proceed to Details” (advances to Step 3). Do not show menu browsing, delivery form, or tracking status content in this step.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-user-1",
-          "msg-user-2"
+          "msg-1"
         ],
         "quotes": [
-          "add images to dishes and all as to worked when we clicked it",
-          "1"
+          "STEP 2: CART PAGE",
+          "Show selected food items.",
+          "Display quantity and total price.",
+          "Include buttons: - Continue Shopping - Proceed to Details",
+          "Only cart content should be visible."
         ]
       },
       "acceptanceCriteria": [
-        "sampleMenuItems in frontend/src/pages/CustomerPortal.tsx references image file paths for each dish image.",
-        "Rendered <img> elements have English alt text matching the dish name (e.g., \"Pizza\", \"Burger\").",
-        "No user-facing text added by this change is non-English."
+        "Step 2 renders a list of items currently in the cart and shows quantity for each item.",
+        "Step 2 renders a total price equal to the sum of (item price × item quantity) across all cart items.",
+        "“Continue Shopping” navigates back to Step 1 without clearing the cart.",
+        "“Proceed to Details” navigates to Step 3.",
+        "No menu browsing UI, delivery details form fields, or order tracking UI is visible in Step 2."
+      ]
+    },
+    {
+      "id": "REQ-18",
+      "text": "Implement STEP 3: DELIVERY DETAILS view with a form containing fields Name, Phone Number, and Delivery Address, plus a “Place Order” button. Do not show menu or cart content in this step. On successful submission, transition directly to Step 4 and start the tracking progression for the newly placed order.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "STEP 3: DELIVERY DETAILS",
+          "Show a form with fields: - Name - Phone Number - Delivery Address",
+          "Include a “Place Order” button.",
+          "Do NOT show menu or cart here.",
+          "STEP 4: ORDER TRACKING",
+          "After placing the order, directly show order tracking."
+        ]
+      },
+      "acceptanceCriteria": [
+        "Step 3 contains inputs for Name, Phone Number, and Delivery Address, and a “Place Order” submit button.",
+        "Submitting the form does not require any payment integration.",
+        "On “Place Order”, the UI navigates directly to Step 4 and begins status progression for the current order.",
+        "No menu UI and no cart UI are visible in Step 3."
+      ]
+    },
+    {
+      "id": "REQ-19",
+      "text": "Implement STEP 4: ORDER TRACKING view that shows order status progression step-by-step in this exact sequence: Order Received → Preparing → Out for Delivery → Delivered. The tracking view must show only the current order status clearly (not a full multi-step timeline).",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "STEP 4: ORDER TRACKING",
+          "Display order status step-by-step: - Order Received - Preparing - Out for Delivery - Delivered",
+          "Show only the current order status clearly."
+        ]
+      },
+      "acceptanceCriteria": [
+        "Immediately after placing an order, Step 4 displays the current status as “Order Received”.",
+        "The status advances automatically through: “Preparing”, “Out for Delivery”, and “Delivered”.",
+        "Only the current status is displayed (e.g., a single status label/card); previous and future statuses are not shown simultaneously as a list/timeline.",
+        "If the user has not placed an order in the current session, Step 4 should not be reachable through the normal flow; if it is reached (e.g., via refresh), show a clear English message indicating there is no active order to track."
+      ]
+    },
+    {
+      "id": "REQ-20",
+      "text": "Ensure smooth navigation between steps and a clear progress flow indicator without violating the “only one step visible at a time” rule.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "Smooth navigation between steps",
+          "Clear progress flow",
+          "Only one step should be visible at a time."
+        ]
+      },
+      "acceptanceCriteria": [
+        "Each step provides the required navigation controls to move forward/backward as specified in the user flow.",
+        "A progress indicator (e.g., Step 1/4, Step 2/4, etc.) is allowed and does not reveal other step content.",
+        "Transitions between steps are responsive and usable on mobile screens."
+      ]
+    },
+    {
+      "id": "REQ-21",
+      "text": "Update the About Project page copy to match the user-provided text exactly (English), without adding extra claims: “This is a frontend prototype of an Online Food Ordering System developed using a no-code website builder. Backend and database operations are explained conceptually.”",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "ABOUT PROJECT",
+          "This is a frontend prototype of an Online Food Ordering System developed using a no-code website builder. Backend and database operations are explained conceptually."
+        ]
+      },
+      "acceptanceCriteria": [
+        "The About Project page contains the exact provided text as its primary description, in English.",
+        "The page does not state or imply real backend/database integration beyond conceptual explanation."
+      ]
+    },
+    {
+      "id": "REQ-22",
+      "text": "Update the Footer so it includes the exact user-required text in English: “College Mini Project – Online Food Ordering System” and “Thank You”.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "FOOTER",
+          "College Mini Project – Online Food Ordering System",
+          "Thank You"
+        ]
+      },
+      "acceptanceCriteria": [
+        "The footer visibly contains the line “College Mini Project – Online Food Ordering System” (including the dash) and the line “Thank You”.",
+        "Footer remains responsive and readable on mobile."
       ]
     }
   ],
   "constraints": [
-    "Do not modify any files under frontend/src/components/ui (read-only UI component sources must be composed, not edited).",
-    "Do not modify immutable hook/bootstrap paths: frontend/src/hooks/useInternetIdentity.ts, frontend/src/hooks/useInternetIdentity.tsx, frontend/src/hooks/useActor.ts, frontend/src/main.tsx.",
-    "Do not add or require any backend functionality; keep the application UI-only for ordering and image viewing."
+    "Frontend prototype only; do not add real payment integration.",
+    "Do not add real authentication; no third-party auth integrations.",
+    "Respect the strict step-by-step flow: only one step’s content visible at a time.",
+    "Do not edit files under frontend/src/components/ui (compose them instead).",
+    "Do not modify immutable paths listed in SYSTEM_CONTEXT (frontend/src/hooks/useInternetIdentity.ts, frontend/src/hooks/useInternetIdentity.tsx, frontend/src/hooks/useActor.ts, frontend/src/main.tsx, frontend/src/components/ui).",
+    "Backend (Motoko) changes are not required for this flow; keep backend/main.mo as-is unless strictly necessary."
   ],
   "nonGoals": [
-    "Implementing real authentication, real order persistence, or any backend database integration.",
-    "Adding new pages or changing existing navigation/routing beyond the Customer Portal dish-image interaction.",
-    "Implementing real-time updates or external image hosting/CDN integration."
+    "Implementing backend persistence for cart/orders.",
+    "Integrating payments or checkout providers.",
+    "Adding real-time networking features (WebSockets/push).",
+    "Building or modifying Restaurant Portal and Delivery Partner Portal flows beyond keeping existing navigation working."
   ],
   "imageRequirements": {
-    "required": [
-      "Square top-down photo-style image of a Margherita pizza on a plate with neutral background (dish-pizza.dim_512x512.png)",
-      "Square photo-style image of a classic burger with fries on a neutral background (dish-burger.dim_512x512.png)",
-      "Square photo-style image of chicken biryani in a bowl with neutral background (dish-biryani.dim_512x512.png)",
-      "Square photo-style image of pasta in a bowl with neutral background (dish-pasta.dim_512x512.png)",
-      "Square photo-style image of a sandwich on a plate with neutral background (dish-sandwich.dim_512x512.png)",
-      "Square photo-style image of noodles in a bowl with neutral background (dish-noodles.dim_512x512.png)"
-    ],
+    "required": [],
     "edits": []
   },
   "userProfileUpdate": {

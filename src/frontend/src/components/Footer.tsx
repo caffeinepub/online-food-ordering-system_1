@@ -11,9 +11,10 @@ export function Footer() {
       <div className="container py-8">
         <div className="flex flex-col items-center gap-4 text-center">
           <div className="space-y-2">
-            <p className="text-sm font-semibold text-foreground">College Mini Project</p>
-            <p className="text-base font-bold text-primary">Online Food Ordering System</p>
-            <p className="text-lg font-semibold text-foreground">Thank You</p>
+            <p className="text-base font-semibold text-foreground">
+              College Mini Project – Online Food Ordering System
+            </p>
+            <p className="text-lg font-semibold text-primary">Thank You</p>
           </div>
           
           <div className="flex items-center gap-1 text-sm text-muted-foreground">

@@ -1,77 +1,131 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-10T15:18:15.956Z",
+  "generatedAt": "2026-02-10T15:34:02.005Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
   },
   "requirements": {
-    "total": 3,
-    "implemented": 3,
+    "total": 8,
+    "implemented": 8,
     "items": [
       {
-        "id": "REQ-10",
-        "summary": "Make each dish image in the Customer Portal menu clickable so that clicking the image opens a modal/popup showing a larger version of that dish image (option 1). The modal must be dismissible and must not break the existing \"Order Now\" button behavior.",
+        "id": "REQ-15",
+        "summary": "Refactor the customer ordering experience to follow a strict step-by-step flow where only one step is visible at a time: Step 1 Restaurant & Menu → Step 2 Cart Page → Step 3 Delivery Details → Step 4 Order Tracking. This flow must be implemented in the existing Customer route (/customer) so that the Home page “Customer Portal” CTA continues to work.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/components/DishImageModal.tsx",
+          "frontend/src/pages/CustomerPortal.tsx",
+          "frontend/src/hooks/useCustomerOrderFlow.ts"
+        ],
+        "matchedFiles": [
+          "frontend/src/pages/CustomerPortal.tsx",
+          "frontend/src/hooks/useCustomerOrderFlow.ts"
+        ]
+      },
+      {
+        "id": "REQ-16",
+        "summary": "Implement STEP 1: RESTAURANT & MENU view with a single restaurant name and a menu list containing exactly these items and prices: Pizza – 199, Burger – 129, Biryani – 249. Each menu item must have an “Add to Cart” button. After at least one item is added, show a “Go to Cart” button. Do not show cart content, delivery details, or order tracking content in this step.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/pages/CustomerPortal.tsx",
+          "frontend/src/hooks/useCustomerOrderFlow.ts"
+        ],
+        "matchedFiles": [
+          "frontend/src/pages/CustomerPortal.tsx",
+          "frontend/src/hooks/useCustomerOrderFlow.ts"
+        ]
+      },
+      {
+        "id": "REQ-17",
+        "summary": "Implement STEP 2: CART PAGE view to show only the selected food items, with quantity per item and a total price calculation. Provide two buttons: “Continue Shopping” (returns to Step 1) and “Proceed to Details” (advances to Step 3). Do not show menu browsing, delivery form, or tracking status content in this step.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/pages/CustomerPortal.tsx",
+          "frontend/src/hooks/useCustomerOrderFlow.ts"
+        ],
+        "matchedFiles": [
+          "frontend/src/pages/CustomerPortal.tsx",
+          "frontend/src/hooks/useCustomerOrderFlow.ts"
+        ]
+      },
+      {
+        "id": "REQ-18",
+        "summary": "Implement STEP 3: DELIVERY DETAILS view with a form containing fields Name, Phone Number, and Delivery Address, plus a “Place Order” button. Do not show menu or cart content in this step. On successful submission, transition directly to Step 4 and start the tracking progression for the newly placed order.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/pages/CustomerPortal.tsx",
+          "frontend/src/hooks/useCustomerOrderFlow.ts",
+          "frontend/src/hooks/useOrderTracking.ts"
+        ],
+        "matchedFiles": [
+          "frontend/src/pages/CustomerPortal.tsx",
+          "frontend/src/hooks/useCustomerOrderFlow.ts",
+          "frontend/src/hooks/useOrderTracking.ts"
+        ]
+      },
+      {
+        "id": "REQ-19",
+        "summary": "Implement STEP 4: ORDER TRACKING view that shows order status progression step-by-step in this exact sequence: Order Received → Preparing → Out for Delivery → Delivered. The tracking view must show only the current order status clearly (not a full multi-step timeline).",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/hooks/useOrderTracking.ts",
+          "frontend/src/pages/CustomerPortal.tsx",
+          "frontend/src/hooks/useCustomerOrderFlow.ts"
+        ],
+        "matchedFiles": [
+          "frontend/src/hooks/useOrderTracking.ts",
+          "frontend/src/pages/CustomerPortal.tsx",
+          "frontend/src/hooks/useCustomerOrderFlow.ts"
+        ]
+      },
+      {
+        "id": "REQ-20",
+        "summary": "Ensure smooth navigation between steps and a clear progress flow indicator without violating the “only one step visible at a time” rule.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/components/CustomerOrderProgress.tsx",
           "frontend/src/pages/CustomerPortal.tsx"
         ],
         "matchedFiles": [
-          "frontend/src/components/DishImageModal.tsx",
+          "frontend/src/components/CustomerOrderProgress.tsx",
           "frontend/src/pages/CustomerPortal.tsx"
         ]
       },
       {
-        "id": "REQ-11",
-        "summary": "Update the Customer Portal menu data model in frontend/src/pages/CustomerPortal.tsx so each menu item references its corresponding static image filename, and wire the UI to use those image files with appropriate alt text in English.",
+        "id": "REQ-21",
+        "summary": "Update the About Project page copy to match the user-provided text exactly (English), without adding extra claims: “This is a frontend prototype of an Online Food Ordering System developed using a no-code website builder. Backend and database operations are explained conceptually.”",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/pages/CustomerPortal.tsx"
+          "frontend/src/pages/AboutProject.tsx"
         ],
         "matchedFiles": [
-          "frontend/src/pages/CustomerPortal.tsx"
+          "frontend/src/pages/AboutProject.tsx"
         ]
       },
       {
-        "id": "REQ-9",
-        "summary": "Add real dish images (static assets) for each sample menu item in the Customer Portal menu (Pizza, Burger, Biryani, Pasta, Sandwich, Noodles), replacing the current emoji-only presentation.",
+        "id": "REQ-22",
+        "summary": "Update the Footer so it includes the exact user-required text in English: “College Mini Project – Online Food Ordering System” and “Thank You”.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/public/assets/generated/dish-pizza.dim_512x512.png",
-          "frontend/public/assets/generated/dish-burger.dim_512x512.png",
-          "frontend/public/assets/generated/dish-biryani.dim_512x512.png",
-          "frontend/public/assets/generated/dish-pasta.dim_512x512.png",
-          "frontend/public/assets/generated/dish-sandwich.dim_512x512.png",
-          "frontend/public/assets/generated/dish-noodles.dim_512x512.png",
-          "frontend/src/pages/CustomerPortal.tsx"
+          "frontend/src/components/Footer.tsx"
         ],
         "matchedFiles": [
-          "frontend/public/assets/generated/dish-pizza.dim_512x512.png",
-          "frontend/public/assets/generated/dish-burger.dim_512x512.png",
-          "frontend/public/assets/generated/dish-biryani.dim_512x512.png",
-          "frontend/public/assets/generated/dish-pasta.dim_512x512.png",
-          "frontend/public/assets/generated/dish-sandwich.dim_512x512.png",
-          "frontend/public/assets/generated/dish-noodles.dim_512x512.png",
-          "frontend/src/pages/CustomerPortal.tsx"
+          "frontend/src/components/Footer.tsx"
         ]
       }
     ]
   },
   "changedFiles": [
     "build-request.json",
-    "build-template/README.md",
     "feature_evidence.json",
     "frontend-file-summaries.txt",
     "frontend-implementation-plan.json",
-    "frontend/public/assets/generated/dish-biryani.dim_512x512.png",
-    "frontend/public/assets/generated/dish-burger.dim_512x512.png",
-    "frontend/public/assets/generated/dish-noodles.dim_512x512.png",
-    "frontend/public/assets/generated/dish-pasta.dim_512x512.png",
-    "frontend/public/assets/generated/dish-pizza.dim_512x512.png",
-    "frontend/public/assets/generated/dish-sandwich.dim_512x512.png",
-    "frontend/src/components/DishImageModal.tsx",
+    "frontend/src/components/CustomerOrderProgress.tsx",
+    "frontend/src/components/Footer.tsx",
+    "frontend/src/hooks/useCustomerOrderFlow.ts",
+    "frontend/src/hooks/useOrderTracking.ts",
+    "frontend/src/pages/AboutProject.tsx",
     "frontend/src/pages/CustomerPortal.tsx",
     "project_state.json",
     "scratch/component-selection.json",

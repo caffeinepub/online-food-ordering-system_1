@@ -1,15 +1,18 @@
 {
   "schemaVersion": "1.0.0",
-  "projectStateVersion": 7,
-  "summary": "Responsive, clean, professional frontend website for a college mini project titled “Online Food Ordering System,” representing a food ordering platform with Customer, Restaurant, and Delivery Partner portals, plus About, Technologies Used, and Footer sections (UI-only; backend conceptual).",
+  "projectStateVersion": 11,
+  "summary": "Clean, responsive academic frontend prototype website for “Online Food Ordering System” using a strict step-by-step flow (only one step visible at a time): Restaurant/Menu → Cart → Delivery Details → Order Tracking, plus About Project and Footer (no payment; backend/database conceptual; smooth navigation and clear progress).",
   "architectural_notes": [
     "Frontend-only implementation (UI only for login/registration). Backend/database are conceptual (e.g., Firebase) for academic demonstration.",
     "Site should be responsive with a clean, simple, professional presentation suitable for a college mini project.",
-    "Add clickable dish images in the Customer Portal menu; clicking opens a modal popup with a larger image (can use placeholder/sample images)."
+    "Add clickable dish images in the Customer Portal menu; clicking opens a modal popup with a larger image (can use placeholder/sample images).",
+    "Use a strict step-by-step UI flow where only one step/page is visible at a time: Menu → Cart → Delivery Details → Tracking, with smooth navigation and clear progress.",
+    "Menu step must not display cart/details/tracking; Cart step must not display menu/details/tracking; Details step must not display menu/cart; Tracking step must show only the current status clearly."
   ],
-  "known_issues": [],
+  "known_issues": [
+    "Order tracking/status tracker does not update correctly after placing an order; needs correction so tracking displays the correct states after order submission."
+  ],
   "isFixRequest": false,
-  "imageRequirements": "## Required Images\n- Square top-down photo-style image of a Margherita pizza on a plate with neutral background (dish-pizza.dim_512x512.png)\n- Square photo-style image of a classic burger with fries on a neutral background (dish-burger.dim_512x512.png)\n- Square photo-style image of chicken biryani in a bowl with neutral background (dish-biryani.dim_512x512.png)\n- Square photo-style image of pasta in a bowl with neutral background (dish-pasta.dim_512x512.png)\n- Square photo-style image of a sandwich on a plate with neutral background (dish-sandwich.dim_512x512.png)\n- Square photo-style image of noodles in a bowl with neutral background (dish-noodles.dim_512x512.png)",
   "existing_features": [
     {
       "id": "feature-create-a-responsive-home-page-for-the-website-titled-online-food-ordering-system-that-includes-1-the-main-title-online-food-ordering-system-2-subtitle-order-your-favorite-food-anytime-anywhere-3-a-short-description-explaining-the-platform-connects-customers-restaurants-and-delivery-partners-and-4-three-prominent-cta-buttons-linking-navigating-to-customer-portal-restaurant-portal-and-delivery-partner-portal",
@@ -98,6 +101,94 @@
         "REQ-11"
       ],
       "version": 1
+    },
+    {
+      "id": "feature-correct-the-customer-portal-order-tracking-flow-so-that-after-an-order-is-placed-the-tracking-ui-reflects-the-correct-sequence-of-states-received-preparing-out-for-delivery-delivered-for-the-most-recently-placed-order-without-being-affected-by-previous-submissions",
+      "title": "Correct the Customer Portal order tracking flow so that after an order is placed, the tracking UI reflects the correct sequence of states (Received → Preparing → Out for Delivery → Delivered) for the most recently placed order, without being affected by previous submissions.",
+      "reqIds": [
+        "REQ-12"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-customer-portal-tracking-ux-so-that-it-clearly-represents-whether-an-order-has-been-placed-if-no-order-has-been-submitted-yet-in-the-current-session-the-track-order-tab-must-show-a-clear-english-message-indicating-there-is-no-active-order-to-track-instead-of-implying-progress",
+      "title": "Update the Customer Portal tracking UX so that it clearly represents whether an order has been placed; if no order has been submitted yet in the current session, the Track Order tab must show a clear English message indicating there is no active order to track (instead of implying progress).",
+      "reqIds": [
+        "REQ-13"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-ensure-the-simulated-tracking-timers-are-properly-managed-in-the-customer-portal-to-prevent-memory-leaks-and-state-updates-after-unmount-e-g-navigating-away-including-clearing-any-pending-timers-when-a-new-order-is-placed-and-when-the-page-component-unmounts",
+      "title": "Ensure the simulated tracking timers are properly managed in the Customer Portal to prevent memory leaks and state updates after unmount (e.g., navigating away), including clearing any pending timers when a new order is placed and when the page/component unmounts.",
+      "reqIds": [
+        "REQ-14"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-refactor-the-customer-ordering-experience-to-follow-a-strict-step-by-step-flow-where-only-one-step-is-visible-at-a-time-step-1-restaurant-menu-step-2-cart-page-step-3-delivery-details-step-4-order-tracking-this-flow-must-be-implemented-in-the-existing-customer-route-customer-so-that-the-home-page-customer-portal-cta-continues-to-work",
+      "title": "Refactor the customer ordering experience to follow a strict step-by-step flow where only one step is visible at a time: Step 1 Restaurant & Menu → Step 2 Cart Page → Step 3 Delivery Details → Step 4 Order Tracking. This flow must be implemented in the existing Customer route (/customer) so that the Home page “Customer Portal” CTA continues to work.",
+      "reqIds": [
+        "REQ-15"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-step-1-restaurant-menu-view-with-a-single-restaurant-name-and-a-menu-list-containing-exactly-these-items-and-prices-pizza-199-burger-129-biryani-249-each-menu-item-must-have-an-add-to-cart-button-after-at-least-one-item-is-added-show-a-go-to-cart-button-do-not-show-cart-content-delivery-details-or-order-tracking-content-in-this-step",
+      "title": "Implement STEP 1: RESTAURANT & MENU view with a single restaurant name and a menu list containing exactly these items and prices: Pizza – 199, Burger – 129, Biryani – 249. Each menu item must have an “Add to Cart” button. After at least one item is added, show a “Go to Cart” button. Do not show cart content, delivery details, or order tracking content in this step.",
+      "reqIds": [
+        "REQ-16"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-step-2-cart-page-view-to-show-only-the-selected-food-items-with-quantity-per-item-and-a-total-price-calculation-provide-two-buttons-continue-shopping-returns-to-step-1-and-proceed-to-details-advances-to-step-3-do-not-show-menu-browsing-delivery-form-or-tracking-status-content-in-this-step",
+      "title": "Implement STEP 2: CART PAGE view to show only the selected food items, with quantity per item and a total price calculation. Provide two buttons: “Continue Shopping” (returns to Step 1) and “Proceed to Details” (advances to Step 3). Do not show menu browsing, delivery form, or tracking status content in this step.",
+      "reqIds": [
+        "REQ-17"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-step-3-delivery-details-view-with-a-form-containing-fields-name-phone-number-and-delivery-address-plus-a-place-order-button-do-not-show-menu-or-cart-content-in-this-step-on-successful-submission-transition-directly-to-step-4-and-start-the-tracking-progression-for-the-newly-placed-order",
+      "title": "Implement STEP 3: DELIVERY DETAILS view with a form containing fields Name, Phone Number, and Delivery Address, plus a “Place Order” button. Do not show menu or cart content in this step. On successful submission, transition directly to Step 4 and start the tracking progression for the newly placed order.",
+      "reqIds": [
+        "REQ-18"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-step-4-order-tracking-view-that-shows-order-status-progression-step-by-step-in-this-exact-sequence-order-received-preparing-out-for-delivery-delivered-the-tracking-view-must-show-only-the-current-order-status-clearly-not-a-full-multi-step-timeline",
+      "title": "Implement STEP 4: ORDER TRACKING view that shows order status progression step-by-step in this exact sequence: Order Received → Preparing → Out for Delivery → Delivered. The tracking view must show only the current order status clearly (not a full multi-step timeline).",
+      "reqIds": [
+        "REQ-19"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-ensure-smooth-navigation-between-steps-and-a-clear-progress-flow-indicator-without-violating-the-only-one-step-visible-at-a-time-rule",
+      "title": "Ensure smooth navigation between steps and a clear progress flow indicator without violating the “only one step visible at a time” rule.",
+      "reqIds": [
+        "REQ-20"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-about-project-page-copy-to-match-the-user-provided-text-exactly-english-without-adding-extra-claims-this-is-a-frontend-prototype-of-an-online-food-ordering-system-developed-using-a-no-code-website-builder-backend-and-database-operations-are-explained-conceptually",
+      "title": "Update the About Project page copy to match the user-provided text exactly (English), without adding extra claims: “This is a frontend prototype of an Online Food Ordering System developed using a no-code website builder. Backend and database operations are explained conceptually.”",
+      "reqIds": [
+        "REQ-21"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-footer-so-it-includes-the-exact-user-required-text-in-english-college-mini-project-online-food-ordering-system-and-thank-you",
+      "title": "Update the Footer so it includes the exact user-required text in English: “College Mini Project – Online Food Ordering System” and “Thank You”.",
+      "reqIds": [
+        "REQ-22"
+      ],
+      "version": 1
     }
   ],
   "new_feature_requests": [
@@ -146,6 +237,12 @@
     {
       "id": "AR-8",
       "summary": "Add dish images to menu items and make them clickable to open a larger image popup/modal (option 1)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-9",
+      "summary": "Implement strict single-step ordering flow UI: Step 1 Restaurant/Menu with Add to Cart + conditional Go to Cart; Step 2 Cart with quantities, totals, Continue Shopping/Proceed; Step 3 Delivery Details form (name/phone/address) with Place Order; Step 4 Order Tracking showing only the current status step (Received → Preparing → Out for Delivery → Delivered)",
       "reqIds": [],
       "status": "pending"
     }

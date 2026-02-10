@@ -1,24 +1,44 @@
 {
   "kind": "spec_vs_diff_report",
   "version": "1.0",
-  "generatedAt": "2026-02-10T15:18:15.953Z",
-  "summary": "Implemented a new DishImageModal component and updated CustomerPortal menu items to reference local image paths and open a modal on image click. However, the diff summary does not show the required static image asset files being added to the frontend, so the “real dish images (static assets)” requirement is not fully evidenced as completed.",
+  "generatedAt": "2026-02-10T15:34:02.002Z",
+  "summary": "Diff implements a 4-step customer ordering flow with an in-memory cart, delivery details form, and automatic order-status progression, plus updates to Footer text and About page primary description. Potential gaps remain around About page “no extra claims” wording and Step 4 guard/message behavior due to truncated evidence.",
   "missing_requirements": [
     {
-      "id": "REQ-9",
-      "requirement": "Add real dish images (static assets) for each sample menu item in the Customer Portal menu (Pizza, Burger, Biryani, Pasta, Sandwich, Noodles), stored and served from the frontend.",
-      "reason": "CustomerPortal.tsx references image paths under /assets/generated/*.png, but the diff summary shows no added image files or asset-directory changes, so there is no evidence the six required static image assets were actually added to the repo and will be served locally.",
+      "id": "REQ-21",
+      "requirement": "Update the About Project page copy to match the user-provided text exactly (English), without adding extra claims.",
+      "reason": "While the provided sentence appears as the primary description, the page also includes additional feature/overview copy that adds claims beyond the exact user-provided text (e.g., “comprehensive ... demonstration”, “complete ... workflow”, “Real-time order tracking”), which may violate the “without adding extra claims” constraint.",
       "evidence": [
-        "frontend/src/pages/CustomerPortal.tsx (image paths reference /assets/generated/dish-*.dim_512x512.png)",
-        "File diff summary: Added: 1, Modified: 3 (no image/static asset files listed)"
+        "frontend/src/pages/AboutProject.tsx"
+      ]
+    },
+    {
+      "id": "REQ-19",
+      "requirement": "If the user has not placed an order in the current session, Step 4 should not be reachable through the normal flow; if it is reached (e.g., via refresh), show a clear English message indicating there is no active order to track.",
+      "reason": "A guard helper exists (canAccessStep4) in the new flow hook, but the provided/truncated CustomerPortal diff does not show Step 4 being conditionally blocked nor the required “no active order” message when tracking is not active.",
+      "evidence": [
+        "frontend/src/hooks/useCustomerOrderFlow.ts",
+        "frontend/src/pages/CustomerPortal.tsx"
       ]
     }
   ],
-  "hallucinated_features": [],
-  "confidence": 0.74,
+  "hallucinated_features": [
+    {
+      "description": "Footer includes additional caffeine.ai attribution link and “Built with ♥” line beyond the two required footer lines.",
+      "reason": "REQ-22 only requests inclusion of two specific lines; the diff adds extra branding/attribution not requested.",
+      "evidence": [
+        "frontend/src/components/Footer.tsx"
+      ]
+    }
+  ],
+  "confidence": 0.62,
   "changed_files": [
     "frontend-file-summaries.txt",
-    "frontend/src/components/DishImageModal.tsx",
+    "frontend/src/components/CustomerOrderProgress.tsx",
+    "frontend/src/components/Footer.tsx",
+    "frontend/src/hooks/useCustomerOrderFlow.ts",
+    "frontend/src/hooks/useOrderTracking.ts",
+    "frontend/src/pages/AboutProject.tsx",
     "frontend/src/pages/CustomerPortal.tsx",
     "project_state.json"
   ]
