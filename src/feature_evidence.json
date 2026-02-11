@@ -2,10 +2,9 @@
   "kind": "feature_evidence_report",
   "features": [
     {
-      "featureId": "feature-refactor-the-customer-ordering-experience-to-follow-a-strict-step-by-step-flow-where-only-one-step-is-visible-at-a-time-step-1-restaurant-menu-step-2-cart-page-step-3-delivery-details-step-4-order-tracking-this-flow-must-be-implemented-in-the-existing-customer-route-customer-so-that-the-home-page-customer-portal-cta-continues-to-work",
-      "featureTitle": "Refactor the customer ordering experience to follow a strict step-by-step flow where only one step is visible at a time: Step 1 Restaurant & Menu → Step 2 Cart Page → Step 3 Delivery Details → Step 4 Order Tracking. This flow must be implemented in the existing Customer route (/customer) so that the Home page “Customer Portal” CTA continues to work.",
+      "featureId": "feature-add-real-dish-images-for-the-customer-portal-menu-items-pizza-burger-biryani-as-static-assets-and-display-them-in-step-1-restaurant-menu-for-each-menu-card",
+      "featureTitle": "Add real dish images for the Customer Portal menu items (Pizza, Burger, Biryani) as static assets and display them in Step 1 (Restaurant & Menu) for each menu card.",
       "files": [
-        "frontend/src/hooks/useCustomerOrderFlow.ts",
         "frontend/src/pages/CustomerPortal.tsx"
       ],
       "components": [
@@ -16,15 +15,14 @@
         "github-export-icp-cli@1.0.0"
       ],
       "testIds": [
-        "REQ-15"
+        "REQ-23"
       ],
       "confidence": "high"
     },
     {
-      "featureId": "feature-implement-step-1-restaurant-menu-view-with-a-single-restaurant-name-and-a-menu-list-containing-exactly-these-items-and-prices-pizza-199-burger-129-biryani-249-each-menu-item-must-have-an-add-to-cart-button-after-at-least-one-item-is-added-show-a-go-to-cart-button-do-not-show-cart-content-delivery-details-or-order-tracking-content-in-this-step",
-      "featureTitle": "Implement STEP 1: RESTAURANT & MENU view with a single restaurant name and a menu list containing exactly these items and prices: Pizza – 199, Burger – 129, Biryani – 249. Each menu item must have an “Add to Cart” button. After at least one item is added, show a “Go to Cart” button. Do not show cart content, delivery details, or order tracking content in this step.",
+      "featureId": "feature-make-each-dish-image-in-the-customer-portal-step-1-clickable-so-that-clicking-opens-a-dismissible-modal-displaying-a-larger-version-of-that-dish-image-without-breaking-the-existing-add-to-cart-button-behavior",
+      "featureTitle": "Make each dish image in the Customer Portal Step 1 clickable so that clicking opens a dismissible modal displaying a larger version of that dish image, without breaking the existing “Add to Cart” button behavior.",
       "files": [
-        "frontend/src/hooks/useCustomerOrderFlow.ts",
         "frontend/src/pages/CustomerPortal.tsx"
       ],
       "components": [
@@ -35,34 +33,14 @@
         "github-export-icp-cli@1.0.0"
       ],
       "testIds": [
-        "REQ-16"
+        "REQ-24"
       ],
       "confidence": "high"
     },
     {
-      "featureId": "feature-implement-step-2-cart-page-view-to-show-only-the-selected-food-items-with-quantity-per-item-and-a-total-price-calculation-provide-two-buttons-continue-shopping-returns-to-step-1-and-proceed-to-details-advances-to-step-3-do-not-show-menu-browsing-delivery-form-or-tracking-status-content-in-this-step",
-      "featureTitle": "Implement STEP 2: CART PAGE view to show only the selected food items, with quantity per item and a total price calculation. Provide two buttons: “Continue Shopping” (returns to Step 1) and “Proceed to Details” (advances to Step 3). Do not show menu browsing, delivery form, or tracking status content in this step.",
+      "featureId": "feature-change-the-customer-portal-order-tracking-so-it-reliably-starts-fresh-for-each-newly-placed-order-and-progresses-through-the-statuses-in-the-correct-sequence-for-the-most-recent-order-only-order-received-preparing-out-for-delivery-delivered",
+      "featureTitle": "Change the Customer Portal order tracking so it reliably starts fresh for each newly placed order and progresses through the statuses in the correct sequence for the most recent order only: Order Received → Preparing → Out for Delivery → Delivered.",
       "files": [
-        "frontend/src/hooks/useCustomerOrderFlow.ts",
-        "frontend/src/pages/CustomerPortal.tsx"
-      ],
-      "components": [
-        "core-infrastructure@1.0.2",
-        "shadcn-ui@1.0.0",
-        "build-template-react@1.0.0",
-        "initial-app@1.0.0",
-        "github-export-icp-cli@1.0.0"
-      ],
-      "testIds": [
-        "REQ-17"
-      ],
-      "confidence": "high"
-    },
-    {
-      "featureId": "feature-implement-step-3-delivery-details-view-with-a-form-containing-fields-name-phone-number-and-delivery-address-plus-a-place-order-button-do-not-show-menu-or-cart-content-in-this-step-on-successful-submission-transition-directly-to-step-4-and-start-the-tracking-progression-for-the-newly-placed-order",
-      "featureTitle": "Implement STEP 3: DELIVERY DETAILS view with a form containing fields Name, Phone Number, and Delivery Address, plus a “Place Order” button. Do not show menu or cart content in this step. On successful submission, transition directly to Step 4 and start the tracking progression for the newly placed order.",
-      "files": [
-        "frontend/src/hooks/useCustomerOrderFlow.ts",
         "frontend/src/hooks/useOrderTracking.ts",
         "frontend/src/pages/CustomerPortal.tsx"
       ],
@@ -74,82 +52,7 @@
         "github-export-icp-cli@1.0.0"
       ],
       "testIds": [
-        "REQ-18"
-      ],
-      "confidence": "high"
-    },
-    {
-      "featureId": "feature-implement-step-4-order-tracking-view-that-shows-order-status-progression-step-by-step-in-this-exact-sequence-order-received-preparing-out-for-delivery-delivered-the-tracking-view-must-show-only-the-current-order-status-clearly-not-a-full-multi-step-timeline",
-      "featureTitle": "Implement STEP 4: ORDER TRACKING view that shows order status progression step-by-step in this exact sequence: Order Received → Preparing → Out for Delivery → Delivered. The tracking view must show only the current order status clearly (not a full multi-step timeline).",
-      "files": [
-        "frontend/src/hooks/useCustomerOrderFlow.ts",
-        "frontend/src/hooks/useOrderTracking.ts",
-        "frontend/src/pages/CustomerPortal.tsx"
-      ],
-      "components": [
-        "core-infrastructure@1.0.2",
-        "shadcn-ui@1.0.0",
-        "build-template-react@1.0.0",
-        "initial-app@1.0.0",
-        "github-export-icp-cli@1.0.0"
-      ],
-      "testIds": [
-        "REQ-19"
-      ],
-      "confidence": "high"
-    },
-    {
-      "featureId": "feature-ensure-smooth-navigation-between-steps-and-a-clear-progress-flow-indicator-without-violating-the-only-one-step-visible-at-a-time-rule",
-      "featureTitle": "Ensure smooth navigation between steps and a clear progress flow indicator without violating the “only one step visible at a time” rule.",
-      "files": [
-        "frontend/src/components/CustomerOrderProgress.tsx",
-        "frontend/src/pages/CustomerPortal.tsx"
-      ],
-      "components": [
-        "core-infrastructure@1.0.2",
-        "shadcn-ui@1.0.0",
-        "build-template-react@1.0.0",
-        "initial-app@1.0.0",
-        "github-export-icp-cli@1.0.0"
-      ],
-      "testIds": [
-        "REQ-20"
-      ],
-      "confidence": "high"
-    },
-    {
-      "featureId": "feature-update-the-about-project-page-copy-to-match-the-user-provided-text-exactly-english-without-adding-extra-claims-this-is-a-frontend-prototype-of-an-online-food-ordering-system-developed-using-a-no-code-website-builder-backend-and-database-operations-are-explained-conceptually",
-      "featureTitle": "Update the About Project page copy to match the user-provided text exactly (English), without adding extra claims: “This is a frontend prototype of an Online Food Ordering System developed using a no-code website builder. Backend and database operations are explained conceptually.”",
-      "files": [
-        "frontend/src/pages/AboutProject.tsx"
-      ],
-      "components": [
-        "core-infrastructure@1.0.2",
-        "shadcn-ui@1.0.0",
-        "build-template-react@1.0.0",
-        "initial-app@1.0.0",
-        "github-export-icp-cli@1.0.0"
-      ],
-      "testIds": [
-        "REQ-21"
-      ],
-      "confidence": "high"
-    },
-    {
-      "featureId": "feature-update-the-footer-so-it-includes-the-exact-user-required-text-in-english-college-mini-project-online-food-ordering-system-and-thank-you",
-      "featureTitle": "Update the Footer so it includes the exact user-required text in English: “College Mini Project – Online Food Ordering System” and “Thank You”.",
-      "files": [
-        "frontend/src/components/Footer.tsx"
-      ],
-      "components": [
-        "core-infrastructure@1.0.2",
-        "shadcn-ui@1.0.0",
-        "build-template-react@1.0.0",
-        "initial-app@1.0.0",
-        "github-export-icp-cli@1.0.0"
-      ],
-      "testIds": [
-        "REQ-22"
+        "REQ-25"
       ],
       "confidence": "high"
     }

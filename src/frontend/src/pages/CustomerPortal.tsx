@@ -7,6 +7,14 @@ import { ShoppingCart, Package } from 'lucide-react';
 import { useCustomerOrderFlow } from '@/hooks/useCustomerOrderFlow';
 import { useOrderTracking } from '@/hooks/useOrderTracking';
 import { CustomerOrderProgress } from '@/components/CustomerOrderProgress';
+import { DishImageModal } from '@/components/DishImageModal';
+
+// Map dish names to image paths
+const dishImages: Record<string, string> = {
+  Pizza: '/assets/generated/pizza.dim_800x600.png',
+  Burger: '/assets/generated/burger.dim_800x600.png',
+  Biryani: '/assets/generated/biryani.dim_800x600.png',
+};
 
 export function CustomerPortal() {
   const {
@@ -23,7 +31,7 @@ export function CustomerPortal() {
     placeOrder,
   } = useCustomerOrderFlow();
 
-  const { currentStatus, startTracking, hasActiveOrder } = useOrderTracking();
+  const { currentStatus, startTracking, resetTracking, hasActiveOrder } = useOrderTracking();
 
   const [formData, setFormData] = useState({
     name: '',
@@ -31,10 +39,25 @@ export function CustomerPortal() {
     address: '',
   });
 
+  const [selectedDishImage, setSelectedDishImage] = useState<{ src: string; name: string } | null>(null);
+
   const handlePlaceOrder = (e: React.FormEvent) => {
     e.preventDefault();
     placeOrder(formData);
+    // Reset any previous tracking and start fresh
+    resetTracking();
     startTracking();
+  };
+
+  const openImageModal = (dishName: string) => {
+    const imageSrc = dishImages[dishName];
+    if (imageSrc) {
+      setSelectedDishImage({ src: imageSrc, name: dishName });
+    }
+  };
+
+  const closeImageModal = () => {
+    setSelectedDishImage(null);
   };
 
   return (
@@ -58,15 +81,38 @@ export function CustomerPortal() {
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {menuItems.map((item) => (
                   <Card key={item.id} className="overflow-hidden hover:shadow-md transition-shadow">
-                    <CardContent className="p-6 space-y-4">
-                      <div className="space-y-2">
-                        <h3 className="font-semibold text-xl">{item.name}</h3>
-                        <p className="text-2xl font-bold text-primary">₹{item.price}</p>
+                    <CardContent className="p-0 space-y-4">
+                      {/* Dish Image - clickable */}
+                      <div
+                        className="relative aspect-[4/3] overflow-hidden cursor-pointer group"
+                        onClick={() => openImageModal(item.name)}
+                      >
+                        <img
+                          src={dishImages[item.name]}
+                          alt={item.name}
+                          className="w-full h-full object-cover transition-transform group-hover:scale-105"
+                        />
+                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors" />
                       </div>
-                      <Button onClick={() => addToCart(item)} className="w-full" size="lg">
-                        <ShoppingCart className="h-4 w-4 mr-2" />
-                        Add to Cart
-                      </Button>
+                      
+                      {/* Dish Details */}
+                      <div className="px-6 pb-6 space-y-4">
+                        <div className="space-y-2">
+                          <h3 className="font-semibold text-xl">{item.name}</h3>
+                          <p className="text-2xl font-bold text-primary">₹{item.price}</p>
+                        </div>
+                        <Button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            addToCart(item);
+                          }}
+                          className="w-full"
+                          size="lg"
+                        >
+                          <ShoppingCart className="h-4 w-4 mr-2" />
+                          Add to Cart
+                        </Button>
+                      </div>
                     </CardContent>
                   </Card>
                 ))}
@@ -229,6 +275,16 @@ export function CustomerPortal() {
             )}
           </CardContent>
         </Card>
+      )}
+
+      {/* Dish Image Modal */}
+      {selectedDishImage && (
+        <DishImageModal
+          isOpen={!!selectedDishImage}
+          onClose={closeImageModal}
+          imageSrc={selectedDishImage.src}
+          dishName={selectedDishImage.name}
+        />
       )}
     </div>
   );

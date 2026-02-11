@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0.0",
-  "projectStateVersion": 11,
+  "projectStateVersion": 13,
   "summary": "Clean, responsive academic frontend prototype website for “Online Food Ordering System” using a strict step-by-step flow (only one step visible at a time): Restaurant/Menu → Cart → Delivery Details → Order Tracking, plus About Project and Footer (no payment; backend/database conceptual; smooth navigation and clear progress).",
   "architectural_notes": [
     "Frontend-only implementation (UI only for login/registration). Backend/database are conceptual (e.g., Firebase) for academic demonstration.",
@@ -12,7 +12,8 @@
   "known_issues": [
     "Order tracking/status tracker does not update correctly after placing an order; needs correction so tracking displays the correct states after order submission."
   ],
-  "isFixRequest": false,
+  "isFixRequest": true,
+  "imageRequirements": "## Required Images\n- Realistic photo of a pizza on a plate (pizza.dim_800x600.png)\n- Realistic photo of a burger on a plate (burger.dim_800x600.png)\n- Realistic photo of biryani in a bowl (biryani.dim_800x600.png)",
   "existing_features": [
     {
       "id": "feature-create-a-responsive-home-page-for-the-website-titled-online-food-ordering-system-that-includes-1-the-main-title-online-food-ordering-system-2-subtitle-order-your-favorite-food-anytime-anywhere-3-a-short-description-explaining-the-platform-connects-customers-restaurants-and-delivery-partners-and-4-three-prominent-cta-buttons-linking-navigating-to-customer-portal-restaurant-portal-and-delivery-partner-portal",
@@ -187,6 +188,30 @@
       "title": "Update the Footer so it includes the exact user-required text in English: “College Mini Project – Online Food Ordering System” and “Thank You”.",
       "reqIds": [
         "REQ-22"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-real-dish-images-for-the-customer-portal-menu-items-pizza-burger-biryani-as-static-assets-and-display-them-in-step-1-restaurant-menu-for-each-menu-card",
+      "title": "Add real dish images for the Customer Portal menu items (Pizza, Burger, Biryani) as static assets and display them in Step 1 (Restaurant & Menu) for each menu card.",
+      "reqIds": [
+        "REQ-23"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-make-each-dish-image-in-the-customer-portal-step-1-clickable-so-that-clicking-opens-a-dismissible-modal-displaying-a-larger-version-of-that-dish-image-without-breaking-the-existing-add-to-cart-button-behavior",
+      "title": "Make each dish image in the Customer Portal Step 1 clickable so that clicking opens a dismissible modal displaying a larger version of that dish image, without breaking the existing “Add to Cart” button behavior.",
+      "reqIds": [
+        "REQ-24"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-change-the-customer-portal-order-tracking-so-it-reliably-starts-fresh-for-each-newly-placed-order-and-progresses-through-the-statuses-in-the-correct-sequence-for-the-most-recent-order-only-order-received-preparing-out-for-delivery-delivered",
+      "title": "Change the Customer Portal order tracking so it reliably starts fresh for each newly placed order and progresses through the statuses in the correct sequence for the most recent order only: Order Received → Preparing → Out for Delivery → Delivered.",
+      "reqIds": [
+        "REQ-25"
       ],
       "version": 1
     }

@@ -9,6 +9,7 @@ export function useOrderTracking() {
   const [currentStepIndex, setCurrentStepIndex] = useState<number>(-1);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const runIdRef = useRef<number>(0);
+  const isMountedRef = useRef<boolean>(true);
 
   // Clear any pending timer
   const clearTimer = () => {
@@ -28,8 +29,10 @@ export function useOrderTracking() {
     clearTimer();
 
     // Start at "Order Received"
-    setCurrentStatus('Order Received');
-    setCurrentStepIndex(0);
+    if (isMountedRef.current) {
+      setCurrentStatus('Order Received');
+      setCurrentStepIndex(0);
+    }
 
     // Schedule progression through remaining statuses
     const scheduleNextStatus = (stepIndex: number) => {
@@ -39,8 +42,8 @@ export function useOrderTracking() {
       }
 
       timerRef.current = setTimeout(() => {
-        // Only update if this is still the current run
-        if (runIdRef.current === currentRunId) {
+        // Only update if this is still the current run and component is mounted
+        if (runIdRef.current === currentRunId && isMountedRef.current) {
           const nextIndex = stepIndex + 1;
           setCurrentStatus(statusProgression[nextIndex]);
           setCurrentStepIndex(nextIndex);
@@ -56,13 +59,17 @@ export function useOrderTracking() {
   const resetTracking = () => {
     runIdRef.current += 1;
     clearTimer();
-    setCurrentStatus('idle');
-    setCurrentStepIndex(-1);
+    if (isMountedRef.current) {
+      setCurrentStatus('idle');
+      setCurrentStepIndex(-1);
+    }
   };
 
   // Cleanup on unmount
   useEffect(() => {
+    isMountedRef.current = true;
     return () => {
+      isMountedRef.current = false;
       clearTimer();
     };
   }, []);

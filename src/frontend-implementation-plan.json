@@ -1,178 +1,81 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Strict single-step Customer ordering flow (Menu → Cart → Details → Tracking)",
+  "title": "Customer Portal: Dish images with modal + fresh order tracking per new order",
   "requirements": [
     {
-      "id": "REQ-15",
-      "summary": "Refactor /customer into a strict single-step flow (Menu → Cart → Details → Tracking) with no login UI and only one step rendered at a time.",
+      "id": "REQ-23",
+      "summary": "Add static dish images (pizza, burger, biryani) and render them on Customer Portal Step 1 menu cards only.",
       "acceptanceCriteria": [
-        "Navigating to /customer starts at Step 1 (Restaurant & Menu) by default.",
-        "At any moment, exactly one step’s content is rendered; content from other steps is not visible on the page.",
-        "The user can complete the full flow end-to-end without needing any other portals or tabs.",
-        "No login/registration UI is required within this step-by-step flow."
+        "Three new image files exist under frontend/public/assets/generated and are referenced by the menu UI: pizza, burger, biryani.",
+        "In /customer Step 1, each menu card shows the dish image above or alongside the dish name/price.",
+        "Each image has appropriate English alt text matching the dish name (e.g., \"Pizza\").",
+        "No other steps (Cart, Delivery Details, Order Tracking) display the menu images."
       ],
       "file_operations": [
         {
-          "path": "frontend/src/pages/CustomerPortal.tsx",
-          "operation": "modify",
-          "description": "Replace the current tabbed + login-based CustomerPortal with a strict 4-step state-driven flow rendered inside the existing /customer route. Ensure only one step component is mounted/rendered at a time, and remove any login/registration UI from this page. Use shadcn-ui components (e.g., Card, Button, Input, Label) for layout and controls; verify the component's usage instructions before implementing."
-        },
-        {
-          "path": "frontend/src/hooks/useCustomerOrderFlow.ts",
+          "path": "frontend/public/assets/generated/pizza.dim_800x600.png",
           "operation": "create",
-          "description": "Add a dedicated in-memory flow hook to manage: current step (1-4), cart items/quantities, computed totals, delivery details draft, and guard rules (e.g., prevent reaching Step 4 in normal flow without placing an order). Use it from CustomerPortal to keep step rendering strict and predictable."
+          "description": "Add the required static dish image asset for Pizza at this exact path/filename so it can be referenced by the Step 1 menu UI."
+        },
+        {
+          "path": "frontend/public/assets/generated/burger.dim_800x600.png",
+          "operation": "create",
+          "description": "Add the required static dish image asset for Burger at this exact path/filename so it can be referenced by the Step 1 menu UI."
+        },
+        {
+          "path": "frontend/public/assets/generated/biryani.dim_800x600.png",
+          "operation": "create",
+          "description": "Add the required static dish image asset for Biryani at this exact path/filename so it can be referenced by the Step 1 menu UI."
+        },
+        {
+          "path": "frontend/src/pages/CustomerPortal.tsx",
+          "operation": "modify",
+          "description": "Update Step 1 (Restaurant & Menu) menu cards to render the corresponding dish image (using the new static assets) for Pizza/Burger/Biryani with alt text equal to the dish name, and ensure images are not rendered in Steps 2–4."
         }
       ]
     },
     {
-      "id": "REQ-16",
-      "summary": "Implement Step 1 (Restaurant & Menu) with one restaurant name and exactly three menu items with Add to Cart and conditional Go to Cart.",
+      "id": "REQ-24",
+      "summary": "Make Step 1 dish images clickable to open a dismissible modal with a larger image while preserving Add to Cart behavior.",
       "acceptanceCriteria": [
-        "Step 1 displays one restaurant name (static text is acceptable).",
-        "Step 1 displays exactly three menu items: Pizza (199), Burger (129), Biryani (249).",
-        "Clicking “Add to Cart” adds the selected item to a cart state (in-memory).",
-        "“Go to Cart” is hidden when cart is empty and becomes visible once at least one item has been added.",
-        "No cart list, delivery form fields, or tracking status UI is visible in Step 1."
+        "Clicking a dish image opens a modal showing a larger version of that dish image.",
+        "The modal can be dismissed via close control and by standard dialog dismissal behavior.",
+        "Clicking “Add to Cart” still adds the correct item and does not open the image modal.",
+        "The existing DishImageModal component is used (or equivalent modal behavior is implemented without editing read-only UI component sources)."
       ],
       "file_operations": [
         {
           "path": "frontend/src/pages/CustomerPortal.tsx",
           "operation": "modify",
-          "description": "Implement Step 1 UI: show a single restaurant name (static) and render exactly three menu items (Pizza–199, Burger–129, Biryani–249), each with an “Add to Cart” button wired to in-memory cart state. Show “Go to Cart” only when cart has at least one item. Ensure Step 1 does not render any cart list, delivery form, or tracking UI. Use shadcn-ui Button/Card for the menu layout; verify the component's usage instructions before implementing."
+          "description": "Wire image click handling in Step 1 to open a modal for the selected dish image, and ensure the Add to Cart button click does not trigger the modal (e.g., separate click targets / stop propagation as needed). Use the existing DishImageModal component to provide the modal behavior. Verify the component's usage instructions before implementing."
         },
         {
-          "path": "frontend/src/hooks/useCustomerOrderFlow.ts",
+          "path": "frontend/src/components/DishImageModal.tsx",
           "operation": "modify",
-          "description": "Add/ensure menu item definitions for exactly the three required items and implement add-to-cart behavior that updates quantities in-memory."
+          "description": "If needed, adjust DishImageModal public props/behavior to better support Step 1 usage (dismissible close control + standard dialog dismissal) without editing any files under frontend/src/components/ui. Verify the component's usage instructions before implementing."
         }
       ]
     },
     {
-      "id": "REQ-17",
-      "summary": "Implement Step 2 (Cart) showing selected items with quantities and total, plus navigation controls back/forward.",
+      "id": "REQ-25",
+      "summary": "Ensure order tracking restarts cleanly per newly placed order and progresses in the correct status sequence for only the latest order, without timer-related React warnings.",
       "acceptanceCriteria": [
-        "Step 2 renders a list of items currently in the cart and shows quantity for each item.",
-        "Step 2 renders a total price equal to the sum of (item price × item quantity) across all cart items.",
-        "“Continue Shopping” navigates back to Step 1 without clearing the cart.",
-        "“Proceed to Details” navigates to Step 3.",
-        "No menu browsing UI, delivery details form fields, or order tracking UI is visible in Step 2."
+        "After placing an order in Step 3, Step 4 immediately shows status \"Order Received\" for that new order.",
+        "The status progresses in order: \"Order Received\" → \"Preparing\" → \"Out for Delivery\" → \"Delivered\" without skipping or reverting.",
+        "Placing a second order in the same session restarts tracking from \"Order Received\" and is not affected by the previous order’s timers/state.",
+        "No React warnings occur from timers updating state after navigating away/unmounting the Customer Portal page."
       ],
       "file_operations": [
         {
           "path": "frontend/src/pages/CustomerPortal.tsx",
           "operation": "modify",
-          "description": "Implement Step 2 UI: render only cart content (items, per-item quantity, and computed total). Add “Continue Shopping” (go to Step 1 without clearing cart) and “Proceed to Details” (go to Step 3). Ensure menu browsing, delivery form fields, and tracking UI are not rendered in this step. Use shadcn-ui Card/Button for layout and controls; verify the component's usage instructions before implementing."
-        },
-        {
-          "path": "frontend/src/hooks/useCustomerOrderFlow.ts",
-          "operation": "modify",
-          "description": "Add/ensure derived selectors for cart line items and total price calculation (sum of price × quantity) and step navigation helpers (back/next) without clearing cart."
-        }
-      ]
-    },
-    {
-      "id": "REQ-18",
-      "summary": "Implement Step 3 (Delivery Details) form (Name, Phone Number, Delivery Address) and Place Order transition into tracking.",
-      "acceptanceCriteria": [
-        "Step 3 contains inputs for Name, Phone Number, and Delivery Address, and a “Place Order” submit button.",
-        "Submitting the form does not require any payment integration.",
-        "On “Place Order”, the UI navigates directly to Step 4 and begins status progression for the current order.",
-        "No menu UI and no cart UI are visible in Step 3."
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/pages/CustomerPortal.tsx",
-          "operation": "modify",
-          "description": "Implement Step 3 UI as a form with fields: Name, Phone Number, Delivery Address, and a “Place Order” button. On submit, start tracking for a newly placed order and navigate directly to Step 4. Ensure Step 3 does not render menu or cart UI. Use shadcn-ui Input/Label/Button/Card for form controls; verify the component's usage instructions before implementing."
-        },
-        {
-          "path": "frontend/src/hooks/useCustomerOrderFlow.ts",
-          "operation": "modify",
-          "description": "Add/ensure delivery details draft state (name, phone, address) and a place-order action that validates required fields (frontend-only), triggers tracking start, and advances step to 4. Do not add payment logic."
+          "description": "Update the Step 3 place-order submit flow to explicitly restart tracking for each newly placed order (reset then start, or equivalent), so Step 4 renders \"Order Received\" for the latest order immediately after submission and remains tied to that latest order only."
         },
         {
           "path": "frontend/src/hooks/useOrderTracking.ts",
           "operation": "modify",
-          "description": "Adjust tracking start behavior (if needed) to align with the required status sequence and provide a clean API for starting a new tracking run on order placement."
-        }
-      ]
-    },
-    {
-      "id": "REQ-19",
-      "summary": "Implement Step 4 (Order Tracking) to show only the current status in the required sequence and handle no-active-order cases.",
-      "acceptanceCriteria": [
-        "Immediately after placing an order, Step 4 displays the current status as “Order Received”.",
-        "The status advances automatically through: “Preparing”, “Out for Delivery”, and “Delivered”.",
-        "Only the current status is displayed (e.g., a single status label/card); previous and future statuses are not shown simultaneously as a list/timeline.",
-        "If the user has not placed an order in the current session, Step 4 should not be reachable through the normal flow; if it is reached (e.g., via refresh), show a clear English message indicating there is no active order to track."
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/hooks/useOrderTracking.ts",
-          "operation": "modify",
-          "description": "Update the internal status progression strings to exactly: “Order Received” → “Preparing” → “Out for Delivery” → “Delivered”, and ensure the initial status after starting is “Order Received” with automatic timed progression and proper timer cleanup."
-        },
-        {
-          "path": "frontend/src/pages/CustomerPortal.tsx",
-          "operation": "modify",
-          "description": "Implement Step 4 UI to render only the current tracking status (single label/card) with no timeline/list of all statuses. Add a clear English empty-state message when there is no active order to track (e.g., reached via refresh), and ensure normal navigation only reaches Step 4 after placing an order. Use shadcn-ui Card for the status display; verify the component's usage instructions before implementing."
-        },
-        {
-          "path": "frontend/src/hooks/useCustomerOrderFlow.ts",
-          "operation": "modify",
-          "description": "Add/ensure guard logic so Step 4 is not reachable via the normal in-app flow unless an order has been placed in the current session, while still allowing Step 4 to render an empty-state message if the step is forced (e.g., due to local state reset)."
-        }
-      ]
-    },
-    {
-      "id": "REQ-20",
-      "summary": "Add smooth step navigation and a clear progress indicator that does not violate the single-step visibility rule.",
-      "acceptanceCriteria": [
-        "Each step provides the required navigation controls to move forward/backward as specified in the user flow.",
-        "A progress indicator (e.g., Step 1/4, Step 2/4, etc.) is allowed and does not reveal other step content.",
-        "Transitions between steps are responsive and usable on mobile screens."
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/components/CustomerOrderProgress.tsx",
-          "operation": "create",
-          "description": "Create a small progress indicator component that displays the current step as text (e.g., “Step 2/4”) without rendering any other step content. Use shadcn-ui styling primitives if needed (e.g., Card/Badge); verify the component's usage instructions before implementing."
-        },
-        {
-          "path": "frontend/src/pages/CustomerPortal.tsx",
-          "operation": "modify",
-          "description": "Wire the progress indicator into the CustomerPortal and ensure each step includes the required forward/back controls only. Ensure mobile-friendly spacing and responsive layout using existing Tailwind utilities and shadcn-ui components; verify the component's usage instructions before implementing."
-        }
-      ]
-    },
-    {
-      "id": "REQ-21",
-      "summary": "Update About Project page copy to exactly the provided English sentence and remove extra claims about real integrations.",
-      "acceptanceCriteria": [
-        "The About Project page contains the exact provided text as its primary description, in English.",
-        "The page does not state or imply real backend/database integration beyond conceptual explanation."
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/pages/AboutProject.tsx",
-          "operation": "modify",
-          "description": "Replace the page’s primary description with exactly: “This is a frontend prototype of an Online Food Ordering System developed using a no-code website builder. Backend and database operations are explained conceptually.” Remove or rewrite surrounding copy that implies real backend/database integration beyond conceptual explanation. Use existing shadcn-ui Card/Typography structure; verify the component's usage instructions before implementing."
-        }
-      ]
-    },
-    {
-      "id": "REQ-22",
-      "summary": "Update Footer text to include the exact required English lines.",
-      "acceptanceCriteria": [
-        "The footer visibly contains the line “College Mini Project – Online Food Ordering System” (including the dash) and the line “Thank You”.",
-        "Footer remains responsive and readable on mobile."
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/components/Footer.tsx",
-          "operation": "modify",
-          "description": "Update footer content so it visibly includes the exact line “College Mini Project – Online Food Ordering System” (including the dash) and the line “Thank You”, maintaining responsive, readable layout on mobile."
+          "description": "Harden the simulated tracking hook so each new tracking run cancels/invalidates prior timers and progresses strictly through: Order Received → Preparing → Out for Delivery → Delivered, and ensure timers are fully cleaned up to prevent state updates after unmount."
         }
       ]
     }
